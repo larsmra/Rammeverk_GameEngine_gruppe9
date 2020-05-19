@@ -1,10 +1,7 @@
 package no.hiof.larsmra.Examples.Pong;
 
-import no.hiof.larsmra.GameEngine.CollisionListener;
-import no.hiof.larsmra.GameEngine.Entity;
+import no.hiof.larsmra.GameEngine.*;
 import no.hiof.larsmra.GameEngine.GUI.ScoreBoard;
-import no.hiof.larsmra.GameEngine.Game;
-import no.hiof.larsmra.GameEngine.Position;
 
 import java.awt.*;
 
@@ -16,7 +13,7 @@ public class Ball extends Entity {
     private int dirY = SPEED;
 
     public Ball(String tag, Position position) {
-        super(tag, position, 20, 20);
+        super(tag, position, 20, 20, new Sprite("C:\\Users\\LarsM\\Documents\\Skole\\hiof\\rammeverk\\testSprites\\ball1.png"));
         addCollision(new CollisionListener() {
             @Override
             public void onCollision() {
@@ -25,14 +22,8 @@ public class Ball extends Entity {
         });
     }
 
-    // Draws the shape.
-    @Override
-    public void render(Graphics2D g2d) {
-        g2d.fillOval(getPosition().getX(), getPosition().getY(), getWidth(), getHeight());
-    }
-
     // Sets the movement of the ball.
-    @Override
+
     public void move(Game game) {
         // Set the ball's position to the middle of the board if it hits the left or the right side of the board.
         if (getPosition().getX() <= 0) {

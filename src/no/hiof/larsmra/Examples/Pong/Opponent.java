@@ -2,17 +2,17 @@ package no.hiof.larsmra.Examples.Pong;
 
 import no.hiof.larsmra.GameEngine.*;
 
-public class Opponent extends Entity {
+public class Opponent extends PlayableCharacter implements Collidable {
 
     private static final int SPEED = 9;
 
     public Opponent(String tag, Position position) {
-        super(tag, position, 20, 100);
+        super(tag, position, 20, 100, 10, new MovementControls(), new Sprite("C:\\Users\\LarsM\\Documents\\Skole\\hiof\\rammeverk\\testSprites\\opponent1.png"));
     }
 
     // Sets the movement of the opponent.
-    @Override
-    public void move(Game game) {
+
+    public void movement(Game game) {
         Layer layer = game.getActiveScene().getLayer(0);
         for (String tag : layer.getTags()) {
             Entity e = layer.getEntity(tag);
@@ -26,5 +26,55 @@ public class Opponent extends Entity {
                 }
             }
         }
+    }
+
+    @Override
+    public void onLeftCollision() {
+
+    }
+
+    @Override
+    public void onRightCollision() {
+
+    }
+
+    @Override
+    public void onTopCollision() {
+
+    }
+
+    @Override
+    public void onBottomCollision() {
+
+    }
+
+    @Override
+    public void onStaticCollision() {
+
+    }
+
+    @Override
+    public void onLeftCollisionLeave() {
+
+    }
+
+    @Override
+    public void onRightCollisionLeave() {
+
+    }
+
+    @Override
+    public void onTopCollisionLeave() {
+
+    }
+
+    @Override
+    public void onBottomCollisionLeave() {
+
+    }
+
+    @Override
+    public void onStaticCollisionLeave() {
+
     }
 }

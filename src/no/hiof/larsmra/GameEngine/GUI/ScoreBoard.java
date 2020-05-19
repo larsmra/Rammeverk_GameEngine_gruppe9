@@ -11,12 +11,12 @@ final public class ScoreBoard extends Entity {
     int score;
 
     public ScoreBoard(String tag, Position position) {
-        super(tag, position, 0, 0);
+        super(tag, position, 0, 0, null);
         this.score = 0;
     }
 
     public ScoreBoard(String tag, Position position, int score) {
-        super(tag, position, 0, 0);
+        super(tag, position, 0, 0, null);
         this.score = score;
     }
 
@@ -36,6 +36,4 @@ final public class ScoreBoard extends Entity {
         g2d.drawString(String.valueOf(score), pos.getX(), pos.getY());
     }
 
-    @Override
-    public void move(Game game) {}
 }

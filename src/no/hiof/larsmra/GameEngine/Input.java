@@ -17,10 +17,12 @@ final public class Input implements KeyListener, MouseListener {
      */
     private Set<Integer> pressed;
 
+    private Set<Integer> justPressed;
 
 
     public Input() {
         pressed = new HashSet<>();
+        justPressed = new HashSet<>();
     }
 
     /**
@@ -32,7 +34,26 @@ final public class Input implements KeyListener, MouseListener {
         return pressed.contains(keyCode);
     }
 
+    /*
+    public boolean justPressed(int keyCode) {
+        System.out.println(keyCode + " : " + justPressed);
+        return justPressed.contains(keyCode);
+    }
+     */
 
+    /*
+    public boolean isPressedFirst(int firstKeyCode, int secondKeyCode) {
+        for (int keyCode : pressed) {
+            if (firstKeyCode == keyCode) {
+                return true;
+            }
+            else if (secondKeyCode == keyCode) {
+                return false;
+            }
+        }
+        return false;
+    }
+     */
 
     @Override
     public void keyTyped(KeyEvent e) {
