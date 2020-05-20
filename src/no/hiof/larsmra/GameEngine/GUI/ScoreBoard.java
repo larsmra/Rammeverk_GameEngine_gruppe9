@@ -11,14 +11,12 @@ final public class ScoreBoard extends TextEntity {
     int score;
 
     public ScoreBoard(String tag, Position position) {
-        super(tag, "0", 20.0f);
-        this.position = position;
+        super(tag, position, "0", 20.0f);
         this.score = 0;
     }
 
     public ScoreBoard(String tag, Position position, int score, float size) {
-        super(tag, Integer.toString(score), size);
-        this.position = position;
+        super(tag, position, Integer.toString(score), size);
         this.score = score;
     }
 

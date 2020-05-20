@@ -5,10 +5,10 @@ public interface Collidable {
     void onRightCollision();
     void onTopCollision();
     void onBottomCollision();
-    void onStaticCollision();
+    void onCollision();
     void onLeftCollisionLeave();
     void onRightCollisionLeave();
     void onTopCollisionLeave();
     void onBottomCollisionLeave();
-    void onStaticCollisionLeave();
+    void onCollisionLeave();
 }

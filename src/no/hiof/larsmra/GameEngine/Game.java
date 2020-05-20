@@ -61,10 +61,10 @@ final public class Game {
      * @param index the menu's index in the menu list.
      */
     public void openMenu(int index) {
-        this.activeMenu = menus.get(index);
         for (int i = 0; i < menus.size(); i++) {
             if (i == index) {
-                menus.get(i).showMenu();
+                activeMenu = menus.get(index);
+                activeMenu.showMenu();
                 showMenu = true;
             }
             else {
@@ -85,15 +85,18 @@ final public class Game {
         for (Menu m : menus) {
             m.hideMenu();
         }
-        menu.showMenu();
+        activeMenu = menu;
+        activeMenu.showMenu();
         showMenu = true;
+        System.out.println(activeMenu);
     }
 
     /**
      * Closes the menu.
      */
     public void closeMenu() {
-        activeMenu.hideMenu();
+        //activeMenu.hideMenu();
+        drawPanel.remove(activeMenu);
         showMenu = false;
     }
 
@@ -131,32 +134,34 @@ final public class Game {
      * Runs the game.
      */
     public void start() {
-        // Sets the size of the game window.
-        drawPanel.setPreferredSize(new Dimension(width, height));
-        frame.pack();
-        // Make the game window visible.
-        frame.setVisible(true);
+        if (activeScene != null) {
+            // Sets the size of the game window.
+            drawPanel.setPreferredSize(new Dimension(width, height));
+            frame.pack();
+            // Make the game window visible.
+            frame.setVisible(true);
 
-        try {
-            // Game loop that updates and redraws the game.
-            while(true) {
-                if (!showMenu) {
+            try {
+                // Game loop that updates and redraws the game.
+                while (true) {
+                    if (!showMenu) {
 
-                    controls.update(this);
+                        controls.update(this);
+                        activeScene.update(this);
+                        camera.update(this);
+                        drawPanel.repaint();
 
-                    activeScene.update(this);
+                    }
+                    input.update();
 
-                    camera.update(this);
-
-                    drawPanel.repaint();
+                    Thread.sleep(1000 / 60);
                 }
-                input.update();
-
-                Thread.sleep(1000 / 60);
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
             }
         }
-        catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+        else {
+            throw new NullPointerException("Missing scene. The game requires an active scene.");
         }
     }
 
@@ -200,6 +205,16 @@ final public class Game {
 
         public GameBuilder() {
             game = new Game();
+        }
+
+        public GameBuilder addScene(Scene scene) {
+            game.scenes.add(scene);
+            return this;
+        }
+
+        public GameBuilder addMenu(Menu menu) {
+            game.menus.add(menu);
+            return this;
         }
 
         /**
@@ -246,6 +261,8 @@ final public class Game {
             Game game = new Game();
             game.width = this.game.width;
             game.height = this.game.height;
+            game.scenes.addAll(this.game.scenes);
+            game.menus.addAll(this.game.menus);
             game.controls = this.game.controls;
             game.camera = this.game.camera;
 

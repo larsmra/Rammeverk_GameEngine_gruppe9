@@ -26,7 +26,7 @@ final public class Layer {
             this.speed = speed;
         }
         else {
-            throw new IllegalArgumentException("speed cannot be a negative number.");
+            throw new IllegalArgumentException("Speed cannot be less than 0.");
         }
     }
 
@@ -51,5 +51,41 @@ final public class Layer {
 
     public double getSpeed() {
         return speed;
+    }
+
+    public static class LayerBuilder {
+
+        private Layer layer;
+
+        public LayerBuilder() {
+            layer = new Layer();
+        }
+
+        public LayerBuilder setSpeed(double speed) {
+            if (speed >= 0) {
+                layer.speed = speed;
+            }
+            else {
+                throw new IllegalArgumentException("Speed cannot be less than 0.");
+            }
+            return this;
+        }
+
+        public LayerBuilder addEntity(Entity entity) {
+            layer.entities.put(entity.tag, entity);
+            layer.tags.add(entity.tag);
+            return this;
+        }
+
+        public Layer build() {
+            Layer layer = new Layer();
+            layer.speed = this.layer.speed;
+            layer.entities.putAll(this.layer.entities);
+            layer.tags.addAll(this.layer.tags);
+
+            this.layer = null;
+
+            return layer;
+        }
     }
 }

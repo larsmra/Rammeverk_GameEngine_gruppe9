@@ -6,11 +6,11 @@ import no.hiof.larsmra.GameEngine.GUI.ScoreBoard;
 public class Ball extends MovableEntity implements Collidable {
 
     public Ball(String tag, Position position) {
-        super(tag);
+        super(tag, position);
         this.position = position;
         width = 20;
         height = 20;
-        movementSpeed = 7;
+        movementSpeed = 10;
         sprite = new Sprite("resources/ball.png");
     }
 
@@ -68,7 +68,7 @@ public class Ball extends MovableEntity implements Collidable {
     }
 
     @Override
-    public void onStaticCollision() {
+    public void onCollision() {
 
     }
 
@@ -93,7 +93,7 @@ public class Ball extends MovableEntity implements Collidable {
     }
 
     @Override
-    public void onStaticCollisionLeave() {
+    public void onCollisionLeave() {
 
     }
 }

@@ -14,7 +14,7 @@ public class Pong {
 
         Controls controls = game.getControls();
 
-        controls.addTypedKeyCommand(KeyEvent.VK_E, () -> System.out.println("E"));
+        controls.bindTypedKeyCommand(KeyEvent.VK_E, () -> System.out.println("E"));
 
         MovementControls mc = new MovementControls();
         mc.bindKeyUp(KeyEvent.VK_W);

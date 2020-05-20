@@ -5,20 +5,19 @@ import no.hiof.larsmra.GameEngine.*;
 public class Opponent extends NonPlayableCharacter implements Collidable {
 
     public Opponent(String tag, Position position) {
-        super(tag);
+        super(tag, position);
         this.position = position;
         width = 20;
         height = 100;
-        movementSpeed = 6;
+        movementSpeed = 9;
         detectionRadius = 450;
-        sprite = new Sprite("resources/opponent.png");
+        sprite = new Sprite("resources/rect2.png");
     }
 
     // Sets the movement of the opponent.
     @Override
     public void movement(Game game) {
-        Entity entity = game.getActiveScene().getEntity("ball");
-        trackEntityVertically(entity);
+        trackEntityVertically("ball");
     }
 
     @Override
@@ -42,7 +41,7 @@ public class Opponent extends NonPlayableCharacter implements Collidable {
     }
 
     @Override
-    public void onStaticCollision() {
+    public void onCollision() {
 
     }
 
@@ -67,7 +66,7 @@ public class Opponent extends NonPlayableCharacter implements Collidable {
     }
 
     @Override
-    public void onStaticCollisionLeave() {
+    public void onCollisionLeave() {
 
     }
 }

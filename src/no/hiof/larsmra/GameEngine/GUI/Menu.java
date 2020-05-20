@@ -1,5 +1,6 @@
 package no.hiof.larsmra.GameEngine.GUI;
 
+import no.hiof.larsmra.GameEngine.Command;
 import no.hiof.larsmra.GameEngine.Game;
 
 import javax.swing.*;
@@ -16,11 +17,11 @@ final public class Menu extends JPanel {
     private List<JButton> btns;
 
     private boolean visible = false;
-    GridBagConstraints gbc;
+    private GridBagConstraints gbc;
 
     public Menu() {
+        setVisible(false);
         btns = new ArrayList<>();
-        //menu = new JPanel();
         setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -31,8 +32,38 @@ final public class Menu extends JPanel {
         Menu.game = game;
     }
 
-    public void addButton() {
+    public void addStartButton(String text) {
+        JButton startBtn = new JButton(text);
+        startBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                game.closeMenu();
+            }
+        });
+        btns.add(startBtn);
+        add(startBtn, gbc);
+        add(Box.createRigidArea(new Dimension(0, 40)));
+    }
 
+    public void addQuitButton(String text) {
+        JButton quitBtn = new JButton(text);
+        quitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                game.stop();
+            }
+        });
+        btns.add(quitBtn);
+        add(quitBtn, gbc);
+        add(Box.createRigidArea(new Dimension(0, 40)));
+    }
+
+    public void addButton(String text, ActionListener listener) {
+        JButton btn = new JButton(text);
+        btn.addActionListener(listener);
+        btns.add(btn);
+        add(btn, gbc);
+        add(Box.createRigidArea(new Dimension(0, 40)));
     }
 
     public void showMenu() {
@@ -62,7 +93,6 @@ final public class Menu extends JPanel {
     public static class MenuBuilder {
 
         Menu menu;
-        List<JButton> btns = new ArrayList<>();
 
         public MenuBuilder() {
             menu = new Menu();
@@ -76,7 +106,7 @@ final public class Menu extends JPanel {
                     game.closeMenu();
                 }
             });
-            btns.add(startBtn);
+            menu.btns.add(startBtn);
             return this;
         }
 
@@ -88,20 +118,22 @@ final public class Menu extends JPanel {
                     game.stop();
                 }
             });
-            btns.add(quitBtn);
+            menu.btns.add(quitBtn);
             return this;
         }
 
         public MenuBuilder addButton(String text, ActionListener actionListener) {
             JButton btn = new JButton(text);
             btn.addActionListener(actionListener);
+            menu.btns.add(btn);
             return this;
         }
 
         public Menu build() {
             Menu menu = new Menu();
 
-            for (JButton btn : btns) {
+            menu.btns.addAll(this.menu.btns);
+            for (JButton btn : this.menu.btns) {
                 menu.btns.add(btn);
                 menu.add(btn, menu.gbc);
                 menu.add(Box.createRigidArea(new Dimension(0, 40)));

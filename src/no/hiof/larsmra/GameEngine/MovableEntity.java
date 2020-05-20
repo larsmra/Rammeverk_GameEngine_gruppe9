@@ -16,8 +16,8 @@ public abstract class MovableEntity extends Entity {
     }
      */
 
-    public MovableEntity(String tag) {
-        super(tag);
+    public MovableEntity(String tag, Position position) {
+        super(tag, position);
         movementSpeed = 0;
     }
 

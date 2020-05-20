@@ -41,4 +41,8 @@ final public class Camera {
     public void setTarget(Entity target) {
         this.target = target;
     }
+
+    public void setTarget(String tag) {
+        this.target = Entity.getEntity(tag);
+    }
 }

@@ -3,13 +3,19 @@ package no.hiof.larsmra.GameEngine.GUI;
 import no.hiof.larsmra.GameEngine.Entity;
 import no.hiof.larsmra.GameEngine.Position;
 
-public abstract class TextEntity extends Entity {
+public class TextEntity extends Entity {
 
     protected String text;
     protected float size;
 
-    public TextEntity(String tag, String text, float size) {
-        super(tag);
+    public TextEntity(String tag, Position position) {
+        super(tag, position);
+        text = "";
+        size = 0;
+    }
+
+    public TextEntity(String tag, Position position, String text, float size) {
+        super(tag, position);
         this.text = text;
         this.size = size;
     }

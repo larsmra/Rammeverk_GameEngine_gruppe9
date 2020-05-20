@@ -34,7 +34,9 @@ final public class Renderer {
     }
 
     private void renderSprites(Graphics2D g2d, Entity entity, int x, int y) {
-        g2d.drawImage(entity.getSprite().getImage(), x, y, entity.getWidth(), entity.getHeight(), null);
+        if (entity.sprite != null) {
+            g2d.drawImage(entity.getSprite().getImage(), x, y, entity.getWidth(), entity.getHeight(), null);
+        }
     }
 
     private void renderText(Graphics2D g2d, TextEntity textEntity, int x, int y) {

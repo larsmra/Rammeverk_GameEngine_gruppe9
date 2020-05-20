@@ -11,11 +11,11 @@ final public class Controls {
     private HashMap<Integer, Command> pressedCommands = new HashMap<>();
     private HashMap<Integer, Command> typedCommands = new HashMap<>();
 
-    public void addPressedKeyCommand(int keyCode, Command command) {
+    public void bindPressedKeyCommand(int keyCode, Command command) {
         pressedCommands.put(keyCode, command);
     }
 
-    public void addTypedKeyCommand(int keyCode, Command command) {
+    public void bindTypedKeyCommand(int keyCode, Command command) {
         typedCommands.put(keyCode, command);
     }
 

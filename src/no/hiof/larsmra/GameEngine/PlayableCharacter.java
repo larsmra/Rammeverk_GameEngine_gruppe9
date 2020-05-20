@@ -11,8 +11,8 @@ public abstract class PlayableCharacter extends MovableEntity {
     }
      */
 
-    public PlayableCharacter(String tag) {
-        super(tag);
+    public PlayableCharacter(String tag, Position position) {
+        super(tag, position);
         movementControls = null;
     }
 

@@ -12,6 +12,8 @@ import java.util.List;
  */
 public abstract class Entity {
 
+    protected static HashMap<String, Entity> entities = new HashMap<>();
+
     protected String tag;
     protected Position position;
     protected int width;
@@ -30,12 +32,16 @@ public abstract class Entity {
     }
      */
 
-    public Entity(String tag) {
+    public Entity(String tag, Position position) {
         this.tag = tag;
-        position = new Position(0, 0);
+        this.position = position;
         width = 0;
         height = 0;
         sprite = null;
+
+        prevPosition = position;
+
+        entities.put(this.tag, this);
     }
 
     public boolean intersects(Entity entity) {
@@ -111,5 +117,20 @@ public abstract class Entity {
 
     public void setSprite(Sprite sprite) {
         this.sprite = sprite;
+    }
+
+    public void setDimensions(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    protected static Entity getEntity(String tag) {
+        Entity entity = entities.get(tag);
+        if (entity != null) {
+            return entity;
+        }
+        else {
+            throw new IllegalArgumentException("Invalid entity tag.");
+        }
     }
 }

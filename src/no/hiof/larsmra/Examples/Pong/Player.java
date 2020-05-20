@@ -7,13 +7,13 @@ import java.awt.event.KeyEvent;
 public class Player extends PlayableCharacter implements Collidable {
 
     public Player(String tag, Position position, MovementControls mc) {
-        super(tag);
+        super(tag, position);
         this.position = position;
         width = 20;
         height = 100;
-        movementSpeed = 6;
+        movementSpeed = 9;
         movementControls = mc;
-        sprite = new Sprite("resources/player.png");
+        sprite = new Sprite("resources/rect1.png");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class Player extends PlayableCharacter implements Collidable {
     }
 
     @Override
-    public void onStaticCollision() {
+    public void onCollision() {
 
     }
 
@@ -62,7 +62,7 @@ public class Player extends PlayableCharacter implements Collidable {
     }
 
     @Override
-    public void onStaticCollisionLeave() {
+    public void onCollisionLeave() {
 
     }
 }

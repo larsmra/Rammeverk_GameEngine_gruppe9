@@ -11,12 +11,13 @@ public abstract class NonPlayableCharacter extends MovableEntity {
     }
      */
 
-    public NonPlayableCharacter(String tag) {
-        super(tag);
+    public NonPlayableCharacter(String tag, Position position) {
+        super(tag, position);
         detectionRadius = 0;
     }
 
-    public void trackEntityVertically(Entity entity) {
+    public void trackEntityVertically(String tag) {
+        Entity entity = getEntity(tag);
         if (isOutsideRadius(entity)) {
             return;
         }
@@ -26,9 +27,14 @@ public abstract class NonPlayableCharacter extends MovableEntity {
         else if (entity.getPosition().getY() < getPosition().getY()) {
             moveUp();
         }
+        else {
+            stopUp();
+            stopDown();
+        }
     }
 
-    public void trackEntityHorizontally(Entity entity) {
+    public void trackEntityHorizontally(String tag) {
+        Entity entity = getEntity(tag);
         if (isOutsideRadius(entity)) {
             return;
         }
@@ -38,14 +44,19 @@ public abstract class NonPlayableCharacter extends MovableEntity {
         else if (entity.getPosition().getX() < getPosition().getX()) {
             moveLeft();
         }
+        else {
+            stopLeft();
+            stopRight();
+        }
     }
 
-    public void trackEntity(Entity entity) {
+    public void trackEntity(String tag) {
+        Entity entity = getEntity(tag);
         if (isOutsideRadius(entity)) {
             return;
         }
-        trackEntityVertically(entity);
-        trackEntityHorizontally(entity);
+        trackEntityVertically(tag);
+        trackEntityHorizontally(tag);
     }
 
     public void moveAwayFromEntity(Entity entity) {
