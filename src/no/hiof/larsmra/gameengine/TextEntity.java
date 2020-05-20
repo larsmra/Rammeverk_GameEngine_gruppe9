@@ -1,5 +1,9 @@
 package no.hiof.larsmra.gameengine;
 
+/**
+ * A class for text entities.
+ * It can be used to add text to a game.
+ */
 public class TextEntity extends Entity {
 
     protected String text;

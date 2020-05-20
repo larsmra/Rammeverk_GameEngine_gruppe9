@@ -3,8 +3,9 @@ package no.hiof.larsmra.gameengine;
 import java.util.HashMap;
 
 /**
- * An abstract class for entities in a game that are supposed to be shown on screen.
- * Used to create custom entities in a game.
+ * An abstract class that works as a base class for entities in a game
+ * that are supposed to be shown on screen.
+ * Used to create custom entities.
  */
 public abstract class Entity {
 

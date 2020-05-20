@@ -1,8 +1,7 @@
 package no.hiof.larsmra.gameengine;
 
 /**
- * This class is responsible for movement of entities.
- * Supposed to replace the move() method in Entity (maybe??). Remember to remove this line before delivery :^)
+ * This class is responsible for movement player controlled entities.
  */
 final public class MovementControls {
 

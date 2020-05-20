@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 /**
  * This class is handling the user controls of the game.
- * i.e. controls for movement, and other actions performed by the player.
  */
 final public class Controls {
 

@@ -1,15 +1,11 @@
 package no.hiof.larsmra.gameengine;
 
+/**
+ * A class for creating non-playable characters.
+ */
 public abstract class NonPlayableCharacter extends MovableEntity {
 
     protected int detectionRadius;
-
-    /*
-    public NonPlayableCharacter(String tag, Position position, int width, int height, int movementSpeed, int detectionRadius, Sprite sprite) {
-        super(tag, position, width, height, movementSpeed, sprite);
-        this.detectionRadius = detectionRadius;
-    }
-     */
 
     public NonPlayableCharacter(String tag, Position position) {
         super(tag, position);

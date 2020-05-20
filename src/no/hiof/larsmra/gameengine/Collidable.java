@@ -1,5 +1,8 @@
 package no.hiof.larsmra.gameengine;
 
+/**
+ * An interface for collision detection.
+ */
 public interface Collidable {
     void onLeftCollision();
     void onRightCollision();

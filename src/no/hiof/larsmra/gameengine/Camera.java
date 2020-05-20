@@ -1,5 +1,9 @@
 package no.hiof.larsmra.gameengine;
 
+/**
+ * A camera class.
+ * Is used to track entities in a game.
+ */
 final public class Camera {
 
     private Entity target;
@@ -9,18 +13,6 @@ final public class Camera {
     public Camera() {
         cameraPosition = new Position(0, 0);
     }
-
-    /*
-    public void trackEntity(String tag) {
-        Entity entity = game.getActiveScene().getEntity(tag);
-
-        if (entity == null) {
-            return;
-        }
-
-        target = entity;
-    }
-     */
 
     public void update(Game game) {
         if (target == null) {
@@ -38,10 +30,11 @@ final public class Camera {
         return cameraPosition;
     }
 
-    public void setTarget(Entity target) {
-        this.target = target;
-    }
-
+    /**
+     * Sets the focusing target.
+     *
+     * @param tag the tag of the entity.
+     */
     public void setTarget(String tag) {
         this.target = Entity.getEntity(tag);
     }

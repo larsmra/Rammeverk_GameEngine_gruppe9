@@ -1,15 +1,11 @@
 package no.hiof.larsmra.gameengine;
 
+/**
+ * A class for creating a playable character.
+ */
 public abstract class PlayableCharacter extends MovableEntity {
 
     protected MovementControls movementControls;
-
-    /*
-    public PlayableCharacter(String tag, Position position, int width, int height, int movementSpeed, MovementControls movementControls, Sprite sprite) {
-        super(tag, position, width, height, movementSpeed, sprite);
-        this.movementControls = movementControls;
-    }
-     */
 
     public PlayableCharacter(String tag, Position position) {
         super(tag, position);

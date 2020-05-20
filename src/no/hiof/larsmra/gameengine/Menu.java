@@ -7,6 +7,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class for creating a menu for a game.
+ */
 final public class Menu extends JPanel {
 
     private static Game game = null;

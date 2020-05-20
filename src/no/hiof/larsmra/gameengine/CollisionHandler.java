@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * A class for collision handling.
+ */
 final public class CollisionHandler {
 
     private static final int TOP = 1;
@@ -11,9 +14,6 @@ final public class CollisionHandler {
     private static final int RIGHT = 3;
     private static final int BOTTOM = 4;
     private static final int NONE = 0;
-
-    private List<List<Collision>> allCollisions = new ArrayList<>();
-    private List<List<Collision>> allPrevCollisions = new ArrayList<>();
 
     private List<Collision> topCollisions = new ArrayList<>();
     private List<Collision> bottomCollisions = new ArrayList<>();
@@ -26,23 +26,6 @@ final public class CollisionHandler {
     private List<Collision> prevLeftCollisions = new ArrayList<>();
     private List<Collision> prevRightCollisions = new ArrayList<>();
     private List<Collision> prevCollisions = new ArrayList<>();
-
-    public CollisionHandler() {
-        Collections.addAll(allCollisions,
-                collisions,
-                topCollisions,
-                leftCollisions,
-                rightCollisions,
-                bottomCollisions);
-
-        Collections.addAll(allPrevCollisions,
-                prevCollisions,
-                prevTopCollisions,
-                prevLeftCollisions,
-                prevRightCollisions,
-                prevBottomCollisions);
-    }
-
 
     public void addCollision(Collidable collider, Collidable collided) {
         int direction = checkRelativeDirection((Entity) collider, (Entity) collided);
@@ -67,54 +50,9 @@ final public class CollisionHandler {
         }
     }
 
-    /*
-    public void addCollision(Collidable collider, Collidable collided) {
-        int direction = checkRelativeDirection((Entity) collider, (Entity) collided);
-        if (collisionDoesNotExist(collider, collided)) {
-            Collision collision = new Collision(collider, collided);
-            for (int i = 1; i < 4; i++) {
-                if (direction < i) {
-                    break;
-                }
-                if (direction == i) {
-                    allCollisions.get(i).add(collision);
-                }
-            }
-            allCollisions.get(0).add(collision);
-        }
-    }
-     */
-
-    private boolean collisionDoesNotExist(Collidable collider, Collidable collided) {
-        for (List<Collision> collisions : allCollisions) {
-            for (Collision collision : collisions) {
-                if (collision.collider == collider && collision.collided == collided) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     private int checkRelativeDirection(Entity collider, Entity collided) {
         Position prevCollider = collider.getPrevPosition();
-
         Position currentCollided = collided.getPosition();
-
-        /*
-        if (prevCollider.getY() > (currentCollided.getY() + collided.getHeight())) {
-            return TOP;
-        }
-        if (prevCollider.getX() > (currentCollided.getX() + collided.getWidth())) {
-            return LEFT;
-        }
-        if ((prevCollider.getX() + collider.getWidth()) < currentCollided.getX()) {
-            return RIGHT;
-        }
-        if ((prevCollider.getY() + collider.getHeight()) < currentCollided.getY()) {
-            return BOTTOM;
-        }
-         */
 
         if (prevCollider.getY() > (currentCollided.getY() + collided.height)) {
             return TOP;
@@ -133,16 +71,6 @@ final public class CollisionHandler {
     }
 
     public void handle() {
-        /*
-        for (List<Collision> collisions : allCollisions) {
-            for (Collision collision : collisions) {
-                collision.collider.onTopCollision();
-                collision.collided.onBottomCollision();
-            }
-        }
-
-         */
-
         for (Collision collision : topCollisions) {
             collision.collider.onTopCollision();
             collision.collided.onBottomCollision();
@@ -170,18 +98,6 @@ final public class CollisionHandler {
     }
 
     private void handleLeaveCollisions() {
-        /*
-        for (int i = 0; i < allPrevCollisions.size(); i++) {
-            for (Collision collision : allPrevCollisions.get(i)) {
-                if (collisionDoesNotExists(collision.collider, collision.collided, allCollisions.get(i))) {
-                    collision.collider.onTopCollisionLeave();
-                    collision.collided.onBottomCollisionLeave();
-                }
-            }
-        }
-
-         */
-
         for (Collision collision : prevTopCollisions) {
             if (collisionDoesNotExists(collision.collider, collision.collided, topCollisions)) {
                 collision.collider.onTopCollisionLeave();

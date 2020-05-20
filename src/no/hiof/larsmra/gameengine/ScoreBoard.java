@@ -1,5 +1,8 @@
 package no.hiof.larsmra.gameengine;
 
+/**
+ * A class for making a score board.
+ */
 final public class ScoreBoard extends TextEntity {
 
     int score;

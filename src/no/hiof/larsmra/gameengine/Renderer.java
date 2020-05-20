@@ -2,6 +2,9 @@ package no.hiof.larsmra.gameengine;
 
 import java.awt.*;
 
+/**
+ * A class for rendering the game.
+ */
 final public class Renderer {
 
     private Game game;

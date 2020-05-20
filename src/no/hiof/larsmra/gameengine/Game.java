@@ -7,8 +7,6 @@ import java.util.ArrayList;
 
 /**
  * A class for creating a game.
- *
- * @author Lars Martin Randem
  */
 final public class Game {
 

@@ -1,5 +1,8 @@
 package no.hiof.larsmra.gameengine;
 
+/**
+ * An entity that has the ability to move.
+ */
 public abstract class MovableEntity extends Entity {
 
     private boolean up = false;
@@ -8,13 +11,6 @@ public abstract class MovableEntity extends Entity {
     private boolean right = false;
 
     protected int movementSpeed;
-
-    /*
-    public MovableEntity(String tag, Position position, int width, int height, int movementSpeed, Sprite sprite) {
-        super(tag, position, width, height, sprite);
-        this.movementSpeed = movementSpeed;
-    }
-     */
 
     public MovableEntity(String tag, Position position) {
         super(tag, position);
@@ -47,6 +43,10 @@ public abstract class MovableEntity extends Entity {
         return true;
     }
 
+    /**
+     * An abstract the method for the movement of the entity.
+     * @param game the game that the entity is in.
+     */
     public abstract void movement(Game game);
 
     public void moveUp() {

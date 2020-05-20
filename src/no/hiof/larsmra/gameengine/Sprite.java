@@ -5,6 +5,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * A class for creating a sprite.
+ */
 final public class Sprite {
 
     private BufferedImage image;

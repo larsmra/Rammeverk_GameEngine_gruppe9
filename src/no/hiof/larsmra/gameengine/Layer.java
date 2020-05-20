@@ -39,12 +39,6 @@ final public class Layer {
         return entities.get(tag);
     }
 
-    /*
-    public HashMap<String, Entity> getEntities() {
-        return entities;
-    }
-     */
-
     public List<String> getTags() {
         return tags;
     }
