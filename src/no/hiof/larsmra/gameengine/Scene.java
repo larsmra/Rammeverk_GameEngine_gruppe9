@@ -90,19 +90,23 @@ final public class Scene {
      */
     public static class SceneBuilder {
 
-        private List<Layer> layers = new ArrayList<>();
+        private Scene scene;
 
         public SceneBuilder() {
+            scene = new Scene();
         }
 
         public SceneBuilder addLayer(Layer layer) {
-            layers.add(layer);
+            scene.layers.add(layer);
             return this;
         }
 
         public Scene build() {
             Scene scene = new Scene();
-            scene.layers = layers;
+            scene.layers = this.scene.layers;
+
+            this.scene = null;
+
             return scene;
         }
     }
