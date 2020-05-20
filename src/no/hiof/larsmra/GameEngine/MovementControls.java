@@ -6,11 +6,9 @@ import java.util.HashMap;
  * This class is responsible for movement of entities.
  * Supposed to replace the move() method in Entity (maybe??). Remember to remove this line before delivery :^)
  */
-public class MovementControls {
+final public class MovementControls {
 
     private int up = -1, down = -1, left = -1, right = -1;
-
-    HashMap<Integer, KeyAction> movement;
 
     public MovementControls() {
 

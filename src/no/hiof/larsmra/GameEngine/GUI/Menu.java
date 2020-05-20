@@ -1,6 +1,5 @@
 package no.hiof.larsmra.GameEngine.GUI;
 
-import no.hiof.larsmra.GameEngine.Action;
 import no.hiof.larsmra.GameEngine.Game;
 
 import javax.swing.*;
@@ -10,11 +9,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Menu extends JPanel {
+final public class Menu extends JPanel {
 
     private static Game game = null;
 
-    private List<Button> btns;
+    private List<JButton> btns;
 
     private boolean visible = false;
     GridBagConstraints gbc;
@@ -51,7 +50,6 @@ public class Menu extends JPanel {
     public void hideMenu() {
         if (visible) {
             setVisible(false);
-            System.out.println("Test 2");
             /*
             startBtn.btn.setVisible(false);
             quitBtn.btn.setVisible(false);
@@ -63,72 +61,55 @@ public class Menu extends JPanel {
 
     public static class MenuBuilder {
 
-        /*
-        private Button startBtn = null;
-        private Button quitBtn = null;
-         */
-
         Menu menu;
-        List<Button> btns = new ArrayList<>();
+        List<JButton> btns = new ArrayList<>();
 
         public MenuBuilder() {
             menu = new Menu();
         }
 
         public MenuBuilder setStartButton(String text) {
-            Button startBtn = new Button(text);
-            startBtn.onClick(() -> {
-                game.closeMenu();
-                System.out.println("Test");
-                //game.start();
+            JButton startBtn = new JButton(text);
+            startBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    game.closeMenu();
+                }
             });
             btns.add(startBtn);
             return this;
         }
 
         public MenuBuilder setQuitButton(String text) {
-            Button quitBtn = new Button(text);
-            quitBtn.onClick(() -> game.stop());
+            JButton quitBtn = new JButton(text);
+            quitBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    game.stop();
+                }
+            });
             btns.add(quitBtn);
             return this;
         }
 
-        public MenuBuilder addButton(String text) {
-
+        public MenuBuilder addButton(String text, ActionListener actionListener) {
+            JButton btn = new JButton(text);
+            btn.addActionListener(actionListener);
             return this;
         }
 
         public Menu build() {
             Menu menu = new Menu();
 
-            for (Button btn : btns) {
+            for (JButton btn : btns) {
                 menu.btns.add(btn);
-                menu.add(btn.btn, menu.gbc);
+                menu.add(btn, menu.gbc);
                 menu.add(Box.createRigidArea(new Dimension(0, 40)));
             }
 
             this.menu = null;
 
             return menu;
-        }
-
-    }
-
-    public static class Button {
-
-        private JButton btn;
-
-        public Button(String text) {
-            btn = new JButton(text);
-        }
-
-        public void onClick(Action action) {
-            btn.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    action.action();
-                }
-            });
         }
 
     }

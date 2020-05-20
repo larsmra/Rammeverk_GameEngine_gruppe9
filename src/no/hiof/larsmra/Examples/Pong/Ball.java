@@ -3,50 +3,97 @@ package no.hiof.larsmra.Examples.Pong;
 import no.hiof.larsmra.GameEngine.*;
 import no.hiof.larsmra.GameEngine.GUI.ScoreBoard;
 
-import java.awt.*;
-
-public class Ball extends Entity {
-
-    private static final int SPEED = 10;
-
-    private int dirX = SPEED;
-    private int dirY = SPEED;
+public class Ball extends MovableEntity implements Collidable {
 
     public Ball(String tag, Position position) {
-        super(tag, position, 20, 20, new Sprite("C:\\Users\\LarsM\\Documents\\Skole\\hiof\\rammeverk\\testSprites\\ball1.png"));
-        addCollision(new CollisionListener() {
-            @Override
-            public void onCollision() {
-                dirX *= -1;
-            }
-        });
+        super(tag);
+        this.position = position;
+        width = 20;
+        height = 20;
+        movementSpeed = 7;
+        sprite = new Sprite("resources/ball.png");
     }
 
-    // Sets the movement of the ball.
-
-    public void move(Game game) {
-        // Set the ball's position to the middle of the board if it hits the left or the right side of the board.
-        if (getPosition().getX() <= 0) {
-            getPosition().setY(250);
-            getPosition().setX(450);
-            ScoreBoard scoreBoard = (ScoreBoard) game.getActiveScene().getLayer(1).getEntity("scoreboard opponent");
-            scoreBoard.incrementScore();
-        }
-        else if (getPosition().getX() >= 900) {
-            getPosition().setY(250);
-            getPosition().setX(450);
-            ScoreBoard scoreBoard = (ScoreBoard) game.getActiveScene().getLayer(1).getEntity("scoreboard player");
-            scoreBoard.incrementScore();
-        }
-        // Change the direction of the ball if it hits the top or bottom side of the board.
-        if (getPosition().getY() <= 0) {
-            dirY = SPEED;
-        }
-        else if ((getPosition().getY() + getHeight()) >= 500) {
-            dirY = -SPEED;
+    @Override
+    public void movement(Game game) {
+        if (!isMoving()) {
+            moveLeft();
+            moveDown();
         }
 
-        getPosition().setX(getPosition().getX() + dirX);
-        getPosition().setY(getPosition().getY() + dirY);
+        if (position.getX() <= 0) {
+            position = new Position(450, 250);
+            ScoreBoard sb = (ScoreBoard) game.getActiveScene().getEntity("scoreboard opponent");
+            if (sb != null) {
+                sb.incrementScore();
+            }
+        }
+        else if (position.getX() >= game.getWidth()) {
+            position = new Position(450, 250);
+            ScoreBoard sb = (ScoreBoard) game.getActiveScene().getEntity("scoreboard player");
+            if (sb != null) {
+                sb.incrementScore();
+            }
+        }
+        if (position.getY() <= 0) {
+            moveDown();
+        }
+        else if (position.getY() >= game.getHeight()) {
+            moveUp();
+        }
+    }
+
+    @Override
+    public void onLeftCollision() {
+        moveRight();
+        System.out.println("left");
+    }
+
+    @Override
+    public void onRightCollision() {
+        moveLeft();
+        System.out.println("right");
+    }
+
+    @Override
+    public void onTopCollision() {
+        moveDown();
+        System.out.println("top");
+    }
+
+    @Override
+    public void onBottomCollision() {
+        moveUp();
+        System.out.println("bottom");
+    }
+
+    @Override
+    public void onStaticCollision() {
+
+    }
+
+    @Override
+    public void onLeftCollisionLeave() {
+
+    }
+
+    @Override
+    public void onRightCollisionLeave() {
+
+    }
+
+    @Override
+    public void onTopCollisionLeave() {
+
+    }
+
+    @Override
+    public void onBottomCollisionLeave() {
+
+    }
+
+    @Override
+    public void onStaticCollisionLeave() {
+
     }
 }

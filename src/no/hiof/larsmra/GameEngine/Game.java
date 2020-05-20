@@ -4,14 +4,13 @@ import no.hiof.larsmra.GameEngine.GUI.Menu;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * A class for creating a game.
+ *
+ * @author Lars Martin Randem
  */
 final public class Game {
 
@@ -19,7 +18,12 @@ final public class Game {
     private DrawPanel drawPanel;
     private Renderer renderer;
     private Input input;
+
+    private Controls controls;
     private Camera camera;
+
+    private int width = 500;
+    private int height = 500;
 
     private Scene activeScene;
     private List<Scene> scenes = new ArrayList<>();
@@ -27,33 +31,41 @@ final public class Game {
     private Menu activeMenu;
     private List<Menu> menus = new ArrayList<>();
 
-    private boolean running = true;
-    private boolean showMenu = true;
+    private boolean showMenu = false;
 
     public Game() {
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         renderer = new Renderer(this);
         input = new Input();
+        controls = new Controls();
+        camera = new Camera();
         drawPanel = new DrawPanel();
-        camera = new Camera(this);
         frame.add(drawPanel);
-        frame.pack();
     }
 
+    /**
+     * Adds a menu to the game.
+     *
+     * @param menu the menu that is added.
+     */
     public void addMenu(Menu menu) {
         menu.setGame(this);
         menus.add(menu);
         drawPanel.add(menu);
     }
 
+    /**
+     * Opens the chosen menu.
+     *
+     * @param index the menu's index in the menu list.
+     */
     public void openMenu(int index) {
         this.activeMenu = menus.get(index);
         for (int i = 0; i < menus.size(); i++) {
             if (i == index) {
                 menus.get(i).showMenu();
                 showMenu = true;
-                //pause();
             }
             else {
                 menus.get(i).hideMenu();
@@ -61,57 +73,86 @@ final public class Game {
         }
     }
 
+    /**
+     * Opens the chosen menu.
+     *
+     * @param menu the chosen menu.
+     */
+    public void openMenu(Menu menu) {
+        if (!menus.contains(menu)) {
+            menus.add(menu);
+        }
+        for (Menu m : menus) {
+            m.hideMenu();
+        }
+        menu.showMenu();
+        showMenu = true;
+    }
+
+    /**
+     * Closes the menu.
+     */
     public void closeMenu() {
         activeMenu.hideMenu();
         showMenu = false;
     }
 
+    /**
+     * Adds a scene to the game's list of scenes.
+     *
+     * @param scene the scene that are added to the list.
+     */
     public void addScene(Scene scene) {
         scenes.add(scene);
     }
 
+    /**
+     * Sets the scene that is currently being shown in the game.
+     *
+     * @param index the scene's index in the scene array.
+     */
     public void setActiveScene(int index) {
         this.activeScene = scenes.get(index);
-        drawPanel.setPreferredSize(new Dimension(activeScene.getWidth(), activeScene.getHeight()));
-
-        System.out.println("Tracking");
-        camera.trackEntity("P2");
-
-        frame.pack();
     }
 
-    /*
-    public Entity getEntity(String tag) {
-        for (Layer layer : activeScene.getLayers()) {
-            Entity entity = layer.getEntity(tag);
-            if (entity != null) {
-                return entity;
-            }
-        }
-        return null;
-    }
+    /**
+     * Sets the scene that is currently being shown in the game.
+     *
+     * @param activeScene the scene that is being shown.
      */
-
-    public Camera getCamera() {
-        return camera;
+    public void setActiveScene(Scene activeScene) {
+        if (!scenes.contains(activeScene)) {
+            scenes.add(activeScene);
+        }
+        this.activeScene = activeScene;
     }
 
     /**
      * Runs the game.
      */
     public void start() {
+        // Sets the size of the game window.
+        drawPanel.setPreferredSize(new Dimension(width, height));
+        frame.pack();
         // Make the game window visible.
         frame.setVisible(true);
 
         try {
-            while(running) {
-                // Game loop that update and redraw the game.
-                while (!showMenu) {
+            // Game loop that updates and redraws the game.
+            while(true) {
+                if (!showMenu) {
+
+                    controls.update(this);
+
                     activeScene.update(this);
 
+                    camera.update(this);
+
                     drawPanel.repaint();
-                    Thread.sleep(1000 / 60);
                 }
+                input.update();
+
+                Thread.sleep(1000 / 60);
             }
         }
         catch (InterruptedException e) {
@@ -126,12 +167,93 @@ final public class Game {
         System.exit(0);
     }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
     public Input getInput() {
         return input;
     }
 
     public Scene getActiveScene() {
         return activeScene;
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public Controls getControls() {
+        return controls;
+    }
+
+    /**
+     * A builder class for creating games.
+     */
+    public static class GameBuilder {
+
+        private Game game;
+
+        public GameBuilder() {
+            game = new Game();
+        }
+
+        /**
+         * Sets the dimensions of the game window.
+         *
+         * @param width the width of the window.
+         * @param height the height of the window.
+         * @return this object.
+         */
+        public GameBuilder setDimensions(int width, int height) {
+            game.width = width;
+            game.height = height;
+            return this;
+        }
+
+        /**
+         * Sets the controls for the game.
+         *
+         * @param controls the controls.
+         * @return this object.
+         */
+        public GameBuilder setControls(Controls controls) {
+            game.controls = controls;
+            return this;
+        }
+
+        /**
+         * Sets the camera for the game.
+         *
+         * @param camera the camera.
+         * @return this object.
+         */
+        public GameBuilder setCamera(Camera camera) {
+            game.camera = camera;
+            return this;
+        }
+
+        /**
+         * Builds a game with the specifications that are set.
+         *
+         * @return the game.
+         */
+        public Game build() {
+            Game game = new Game();
+            game.width = this.game.width;
+            game.height = this.game.height;
+            game.controls = this.game.controls;
+            game.camera = this.game.camera;
+
+            this.game = null;
+
+            return game;
+        }
+
     }
 
     /**
@@ -149,16 +271,7 @@ final public class Game {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
 
-            // Goes through all of the layers and draws the entities in each layer.
-            /*
-            for (Layer l : activeScene.getLayers()) {
-                for (String tag : l.getTags()) {
-                    l.getEntity(tag).render(g2d);
-                }
-            }
-             */
-
-            renderer.render(g2d, activeScene, camera);
+            renderer.render(g2d);
         }
     }
 }

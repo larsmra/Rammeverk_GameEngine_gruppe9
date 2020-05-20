@@ -8,20 +8,13 @@ import java.util.List;
  */
 final public class Scene {
 
-    private int width;
-    private int height;
-
-    private Gravity gravity;
     private List<Layer> layers;
 
     private CollisionHandler collisionHandler;
 
-    public Scene(int width, int height) {
-        this.width = width;
-        this.height = height;
+    public Scene() {
 
         layers = new ArrayList<>();
-        layers.add(0, new Layer());
 
         collisionHandler = new CollisionHandler();
     }
@@ -37,8 +30,8 @@ final public class Scene {
             // Moves the entities
             for (String tag : tags) {
                 Entity entity = l.getEntity(tag);
-                if (entity instanceof MoveableEntity) {
-                    ((MoveableEntity) entity).moveEntity(game);
+                if (entity instanceof MovableEntity) {
+                    ((MovableEntity) entity).moveEntity(game);
                 }
             }
 
@@ -50,11 +43,6 @@ final public class Scene {
                 }
             }
             collisionHandler.handle();
-
-            Camera camera = game.getCamera();
-            if (camera != null) {
-                camera.update();
-            }
         }
     }
 
@@ -89,20 +77,8 @@ final public class Scene {
         return null;
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
     public Layer getLayer(int index) {
         return layers.get(index);
-    }
-
-    public Gravity getGravity() {
-        return gravity;
     }
 
     public List<Layer> getLayers() {
@@ -114,33 +90,19 @@ final public class Scene {
      */
     public static class SceneBuilder {
 
-        private int width;
-        private int height;
-
-        private Gravity gravity;
         private List<Layer> layers = new ArrayList<>();
 
-        public SceneBuilder(int width, int height) {
-            this.width = width;
-            this.height = height;
+        public SceneBuilder() {
         }
 
-        public SceneBuilder setGravity(Gravity gravity) {
-            this.gravity = gravity;
-            return this;
-        }
-
-        public SceneBuilder addLayers(int numLayers) {
-            for (int i = 0; i < numLayers; i++) {
-                layers.add(new Layer());
-            }
+        public SceneBuilder addLayer(Layer layer) {
+            layers.add(layer);
             return this;
         }
 
         public Scene build() {
-            Scene scene = new Scene(width, height);
-            scene.gravity = gravity;
-            scene.layers.addAll(layers);
+            Scene scene = new Scene();
+            scene.layers = layers;
             return scene;
         }
     }

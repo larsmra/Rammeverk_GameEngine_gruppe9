@@ -6,34 +6,44 @@ import no.hiof.larsmra.GameEngine.Position;
 
 import java.awt.*;
 
-final public class ScoreBoard extends Entity {
+final public class ScoreBoard extends TextEntity {
 
     int score;
 
     public ScoreBoard(String tag, Position position) {
-        super(tag, position, 0, 0, null);
+        super(tag, "0", 20.0f);
+        this.position = position;
         this.score = 0;
     }
 
-    public ScoreBoard(String tag, Position position, int score) {
-        super(tag, position, 0, 0, null);
+    public ScoreBoard(String tag, Position position, int score, float size) {
+        super(tag, Integer.toString(score), size);
+        this.position = position;
         this.score = score;
     }
 
     public void incrementScore() {
         score++;
+        text = Integer.toString(score);
+    }
+
+    public void incrementScore(int points) {
+        score += points;
+        text = Integer.toString(score);
     }
 
     public void decrementScore() {
         score--;
+        text = Integer.toString(score);
     }
 
-    @Override
-    public void render(Graphics2D g2d) {
-        Position pos = getPosition();
-        Font font = g2d.getFont().deriveFont(20.0f);
-        g2d.setFont(font);
-        g2d.drawString(String.valueOf(score), pos.getX(), pos.getY());
+    public void decrementScore(int points) {
+        score -= points;
+        text = Integer.toString(score);
+    }
+
+    public int getScore() {
+        return score;
     }
 
 }

@@ -3,23 +3,30 @@ package no.hiof.larsmra.Examples.Pong;
 import no.hiof.larsmra.GameEngine.*;
 import no.hiof.larsmra.GameEngine.GUI.ScoreBoard;
 
+import java.awt.event.KeyEvent;
+
 public class Pong {
 
     public static void main(String[] args) {
 
         // Initiates a game.
-        Game game = new Game();
+        Game game = new Game.GameBuilder().setDimensions(900, 500).build();
+
+        Controls controls = game.getControls();
+
+        controls.addTypedKeyCommand(KeyEvent.VK_E, () -> System.out.println("E"));
+
+        MovementControls mc = new MovementControls();
+        mc.bindKeyUp(KeyEvent.VK_W);
+        mc.bindKeyDown(KeyEvent.VK_S);
 
         // Creates entities to put in the game.
-        Player player = new Player("player", new Position(50, 200));
+        Player player = new Player("player", new Position(50, 200), mc);
         Opponent opponent = new Opponent("opponent", new Position(830, 200));
         Ball ball = new Ball("ball", new Position(440, 240));
 
-        // Creates a scene.
-        Scene scene = new Scene.SceneBuilder(900, 500).addLayers(1).build();
-
         // Gets the default layer that is created when the scene was instantiated.
-        Layer layer1 = scene.getLayer(0);
+        Layer layer1 = new Layer();
 
         // Adds the entities to the layer.
         layer1.addEntity(player);
@@ -31,10 +38,16 @@ public class Pong {
         ScoreBoard scoreBoardOpponent = new ScoreBoard("scoreboard opponent", new Position(800, 20));
 
         // Gets the added layer
-        Layer layer2 = scene.getLayer(1);
+        Layer layer2 = new Layer();
 
         layer2.addEntity(scoreBoardPlayer);
         layer2.addEntity(scoreBoardOpponent);
+
+        // Creates a scene.
+        Scene scene = new Scene.SceneBuilder()
+                .addLayer(layer1)
+                .addLayer(layer2)
+                .build();
 
         // Adds the scene to the game.
         game.addScene(scene);

@@ -6,27 +6,14 @@ import java.awt.event.KeyEvent;
 
 public class Player extends PlayableCharacter implements Collidable {
 
-    private static final int SPEED = 9;
-
-    public Player(String tag, Position position) {
-        super(tag, position, 20, 100, 10, new MovementControls(), new Sprite("C:\\Users\\LarsM\\Documents\\Skole\\hiof\\rammeverk\\testSprites\\player1.png"));
-    }
-
-    // Decides how the player moves in the game.
-
-    public void movement(Game game) {
-        if (getPosition().getY() > 0) {
-            // If the W key or the UP key is pressed, the player moves up.
-            if (game.getInput().isPressed(KeyEvent.VK_W) || game.getInput().isPressed(KeyEvent.VK_UP)) {
-                getPosition().setY(getPosition().getY() - SPEED);
-            }
-        }
-        if (getPosition().getY() < (500 - getHeight())) {
-            // If the S key or the DOWN key is pressed, the player moves down.
-            if (game.getInput().isPressed(KeyEvent.VK_S) || game.getInput().isPressed(KeyEvent.VK_DOWN)) {
-                getPosition().setY(getPosition().getY() + SPEED);
-            }
-        }
+    public Player(String tag, Position position, MovementControls mc) {
+        super(tag);
+        this.position = position;
+        width = 20;
+        height = 100;
+        movementSpeed = 6;
+        movementControls = mc;
+        sprite = new Sprite("resources/player.png");
     }
 
     @Override

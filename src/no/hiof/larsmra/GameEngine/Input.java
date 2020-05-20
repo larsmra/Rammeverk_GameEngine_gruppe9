@@ -10,19 +10,18 @@ import java.util.Set;
 /**
  * A class for taking user input.
  */
-final public class Input implements KeyListener, MouseListener {
+final public class Input implements KeyListener {
 
     /**
      * A set of keys that are pressed.
      */
     private Set<Integer> pressed;
-
-    private Set<Integer> justPressed;
+    private Set<Integer> released;
 
 
     public Input() {
         pressed = new HashSet<>();
-        justPressed = new HashSet<>();
+        released = new HashSet<>();
     }
 
     /**
@@ -34,26 +33,13 @@ final public class Input implements KeyListener, MouseListener {
         return pressed.contains(keyCode);
     }
 
-    /*
-    public boolean justPressed(int keyCode) {
-        System.out.println(keyCode + " : " + justPressed);
-        return justPressed.contains(keyCode);
+    public boolean isReleased(int keyCode) {
+        return released.contains(keyCode);
     }
-     */
 
-    /*
-    public boolean isPressedFirst(int firstKeyCode, int secondKeyCode) {
-        for (int keyCode : pressed) {
-            if (firstKeyCode == keyCode) {
-                return true;
-            }
-            else if (secondKeyCode == keyCode) {
-                return false;
-            }
-        }
-        return false;
+    public void update() {
+        released.clear();
     }
-     */
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -68,30 +54,7 @@ final public class Input implements KeyListener, MouseListener {
     @Override
     public void keyReleased(KeyEvent e) {
         pressed.remove(e.getKeyCode());
+        released.add(e.getKeyCode());
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
 }

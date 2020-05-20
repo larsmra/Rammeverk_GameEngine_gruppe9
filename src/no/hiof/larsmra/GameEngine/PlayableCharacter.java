@@ -1,21 +1,19 @@
 package no.hiof.larsmra.GameEngine;
 
-import java.util.HashMap;
+public abstract class PlayableCharacter extends MovableEntity {
 
-public abstract class PlayableCharacter extends MoveableEntity {
+    protected MovementControls movementControls;
 
-    private MovementControls movementControls;
-
-    private HashMap<Integer, KeyAction> keyActions;
-
+    /*
     public PlayableCharacter(String tag, Position position, int width, int height, int movementSpeed, MovementControls movementControls, Sprite sprite) {
         super(tag, position, width, height, movementSpeed, sprite);
         this.movementControls = movementControls;
-        keyActions = new HashMap<>();
     }
+     */
 
-    public void addKeyAction(int keyCode, KeyAction action) {
-        keyActions.put(keyCode, action);
+    public PlayableCharacter(String tag) {
+        super(tag);
+        movementControls = null;
     }
 
     @Override
@@ -53,4 +51,11 @@ public abstract class PlayableCharacter extends MoveableEntity {
         }
     }
 
+    public MovementControls getMovementControls() {
+        return movementControls;
+    }
+
+    public void setMovementControls(MovementControls movementControls) {
+        this.movementControls = movementControls;
+    }
 }

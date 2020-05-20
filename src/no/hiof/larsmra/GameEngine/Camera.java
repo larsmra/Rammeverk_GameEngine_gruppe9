@@ -1,19 +1,16 @@
 package no.hiof.larsmra.GameEngine;
 
-public class Camera {
+final public class Camera {
 
-    //private String targetTag;
     private Entity target;
 
     private Position cameraPosition;
 
-    private Game game;
-
-    public Camera(Game game) {
-        this.game = game;
+    public Camera() {
         cameraPosition = new Position(0, 0);
     }
 
+    /*
     public void trackEntity(String tag) {
         Entity entity = game.getActiveScene().getEntity(tag);
 
@@ -21,21 +18,17 @@ public class Camera {
             return;
         }
 
-        //targetTag = tag;
         target = entity;
-
-
-
-        //System.out.println(cameraPosition.getX() + " , " + cameraPosition.getY());
     }
+     */
 
-    public void update() {
+    public void update(Game game) {
         if (target == null) {
             return;
         }
 
-        int x = (target.getPosition().getX() + (target.getWidth() / 2)) - (game.getActiveScene().getWidth() / 2);
-        int y = (target.getPosition().getY() + (target.getHeight() / 2)) - (game.getActiveScene().getHeight() / 2);
+        int x = (target.getPosition().getX() + (target.getWidth() / 2)) - (game.getWidth() / 2);
+        int y = (target.getPosition().getY() + (target.getHeight() / 2)) - (game.getHeight() / 2);
 
         cameraPosition.setX(x);
         cameraPosition.setY(y);
@@ -43,5 +36,9 @@ public class Camera {
 
     public Position getPosition() {
         return cameraPosition;
+    }
+
+    public void setTarget(Entity target) {
+        this.target = target;
     }
 }

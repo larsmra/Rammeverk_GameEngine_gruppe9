@@ -3,7 +3,7 @@ package no.hiof.larsmra.GameEngine;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CollisionHandler {
+final public class CollisionHandler {
 
     private static final int LEFT = 1;
     private static final int RIGHT = 2;
